@@ -22,14 +22,18 @@ public class Employee {
     public String toString() {
         return "Работник:" +
                 "id = " + id +
-                ", Имя = " + name +
-                ", Отчество = " + surname +
-                ", Фамилия = " + lastname +
-                ", Отдел = " + department +
-                ", Зарплата = " + salary
+                ", ФИО: " + name + " " + surname + " " + lastname +
+                ", Отдел: " + department +
+                ", Зарплата: " + salary
                 ;
     }
-
+    public String toStringWithoutDepartment() {
+        return "Работник:" +
+                "id = " + id +
+                ", ФИО: " + name + " " + surname + " " + lastname +
+                ", Зарплата: " + salary
+                ;
+    }
     public int getId() {
         return id;
     }

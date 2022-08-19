@@ -1,21 +1,22 @@
 
 public class Employee {
 
-    int id;
-    String name;
-    String surname;
-    String lastname;
-    int department;
-    int salary;
+    private int id;
+    private String name;
+    private String surname;
+    private String lastname;
+    private int department;
+    private int salary;
+    private static int counter = 1;
 
     public Employee(String name, String surname, String lastname, int department, int salary) {
-        this.id = Main.counter;
+        this.id = counter;
         this.name = name;
         this.surname = surname;
         this.lastname = lastname;
         this.department = department;
         this.salary = salary;
-        Main.counter++;
+        counter++;
     }
 
     @Override
@@ -27,13 +28,15 @@ public class Employee {
                 ", Зарплата: " + salary
                 ;
     }
-    public String toStringWithoutDepartment() {
+
+    public String toStringWithoutDepartment() {  //В задании написано, что надо вывести все данные, КРОМЕ отдела.
         return "Работник:" +
                 "id = " + id +
                 ", ФИО: " + name + " " + surname + " " + lastname +
                 ", Зарплата: " + salary
                 ;
     }
+
     public int getId() {
         return id;
     }

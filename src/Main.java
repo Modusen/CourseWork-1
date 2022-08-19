@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
-    public static int counter = 1;
 
     public static Employee[] employeeBook = new Employee[10];
     public static int overallSalary = 0;
@@ -29,21 +28,21 @@ public class Main {
         employeeBook[8] = new Employee("Ирина", "Александровна", "Ливнева", 2, 30000);
         employeeBook[9] = new Employee("Павел", "Ибдурахманович", "Фамильев", 5, 90000);
 
-        typeEmployeeList();
+        printEmployeeList(); //было TYPE (глагол) Employee List = НАПЕЧАТАТЬ список сотрудников
 
         System.out.println("Общая месячная зарплата: " + getOverallSalaryPerMonth());
 
-        getAndPrintMinimumSalaryWorker();
+        printMinimumSalaryWorker();
 
-        getAndPrintMaximumSalaryWorker();
+        printMaximumSalaryWorker();
 
-        getAndPrintAverageSalary();
+        printAverageSalary();
 
-        getAndPrintFullNameList();
+        printFullNameList();
 
 //Medium level
 
-        System.out.println("Введите процент, на который необходимо проиндексировать зарплату:");
+        System.out.println("Введите процент (от -100 до 100), на который необходимо проиндексировать зарплату:"); //например, так?
 
         indexSalaryForAll();
 
@@ -52,32 +51,30 @@ public class Main {
         System.out.println("Введите номер отдела от 1 до 5:");
         department = Integer.parseInt(reader.readLine());
 
-        getAndPrintMaximumSalaryInDepartment();
+        printMinimumSalaryInDepartment();
 
-        getAndPrintMinimumSalaryInDepartment();
+        printMaximumSalaryInDepartment();
 
         System.out.println("Общая сумма затрат на зарплату по отделу: " + getOverallSalaryInDepartment());
 
         System.out.println("Средняя зарплата по отделу: " + getAverageSalaryInDepartment());
 
-        System.out.println("Введите процент, на который индексировать зарплату по отделу:");
+        System.out.println("Введите процент (от -100 до 100), на который индексировать зарплату по отделу:");
         indexSalaryInDepartment = Integer.parseInt(reader.readLine());
         indexSalaryInDepartmentAndPrintEmployeeWithoutDepartmentNumber();
 
-        System.out.println("Введите зарплату для сортировки:");
+        System.out.println("Введите зарплату (любое int число) для сортировки сотрудников:");
         salarySorting = Integer.parseInt(reader.readLine());
         salarySorting();
 
 // Advanced level Task#6
-        System.out.println("Хочешь, напечатаю сотрудников по отделам? (Введи ответ)");
-        String question = reader.readLine();
-        System.out.println("Ай, мне пофиг, напечатаю :D");
+        System.out.println("\n" + "Сортируем сотрудников по отделам." + "\n");
 
         findAndPrintEmployeeByDepartment();
         reader.close();
     }
 
-    public static void typeEmployeeList() {
+    public static void printEmployeeList() { //было TYPE (глагол) Employee List = НАПЕЧАТАТЬ список сотрудников
         for (int i = 0; i < 10; i++) {
             System.out.println(employeeBook[i]);
         }
@@ -86,48 +83,48 @@ public class Main {
     public static int getOverallSalaryPerMonth() {
         overallSalary = 0;
         for (int i = 0; i < employeeBook.length; i++) {
-            overallSalary += employeeBook[i].getSalary();
+            if (employeeBook[i] != null) {
+                overallSalary += employeeBook[i].getSalary();
+            } else {
+                throw new RuntimeException("Сотрудника не существует"); /*не уверен насчет корректности и необходимости
+                 вывода этоко эксепшна, поэтому дальше просто буду вводить проверку работника на null*/
+            }
         }
         return overallSalary;
     }
 
-    public static void getAndPrintMinimumSalaryWorker() {
+    public static void printMinimumSalaryWorker() {
         int minSalary = employeeBook[0].getSalary();
+        String minimumSalaryWorker = "";
         for (int i = 0; i < employeeBook.length; i++) {
-            if (minSalary > employeeBook[i].getSalary()) {
-                minSalary = employeeBook[i].getSalary();
+            if (employeeBook[i] != null) {
+                if (minSalary > employeeBook[i].getSalary()) {
+                    minSalary = employeeBook[i].getSalary();
+                    minimumSalaryWorker = employeeBook[i].toString();
+                }
             }
         }
-        for (int k = 0; k < employeeBook.length; k++) {
-            if (minSalary == employeeBook[k].getSalary()) {
-                System.out.println("Минимальная зарплата: " + employeeBook[k]);
-            }
-        }
-
+        System.out.println("Минимальная зарплата: " + minimumSalaryWorker);
     }
 
-    public static void getAndPrintMaximumSalaryWorker() {
+    public static void printMaximumSalaryWorker() {
         maxSalary = employeeBook[0].getSalary();
+        String maxSalaryWorker = "";
         for (int i = 0; i < employeeBook.length; i++) {
             if (maxSalary < employeeBook[i].getSalary()) {
                 maxSalary = employeeBook[i].getSalary();
+                maxSalaryWorker = employeeBook[i].toString();
             }
         }
-        for (int k = 0; k < employeeBook.length; k++) {
-            if (maxSalary == employeeBook[k].getSalary()) {
-                System.out.println("Максимальная зарплата: " + employeeBook[k]);
-            }
-        }
+        System.out.println("Максимальная зарплата: " + maxSalaryWorker);
     }
 
-    public static void getAndPrintAverageSalary() {
-        System.out.println("Среднее значение зарплаты: " + overallSalary / employeeBook.length); /* можно было бы ввести новую переменную,
-        которая может пригодиться в дальнейшем
-        но я подумал, что так лаконичнее на данном этапе :).*/
+    public static void printAverageSalary() {
+        System.out.println("Среднее значение зарплаты: " + overallSalary / employeeBook.length);
     }
 
-    public static void getAndPrintFullNameList() {
-        for (int i = 0; i < 10; i++) {
+    public static void printFullNameList() {
+        for (int i = 0; i < employeeBook.length; i++) {
             System.out.println(employeeBook[i].getName() + " " + employeeBook[i].getSurname() + " " + employeeBook[i].getLastname());
         }
     }
@@ -139,44 +136,50 @@ public class Main {
         }
     }
 
-    public static void getAndPrintMaximumSalaryInDepartment() {
+    public static void printMaximumSalaryInDepartment() {
         int maxDepartmentSalary = 0;
         int i = 0;
-        do {
-            if (department == employeeBook[i].getDepartment()) {
-                if (maxDepartmentSalary < employeeBook[i].getSalary()) {
-                    maxDepartmentSalary = employeeBook[i].getSalary();
+        while (i < employeeBook.length) {
+            if (employeeBook != null) {
+                if (department == employeeBook[i].getDepartment()) {
+                    if (maxDepartmentSalary < employeeBook[i].getSalary()) {
+                        maxDepartmentSalary = employeeBook[i].getSalary();
+                    }
                 }
             }
             i++;
-        } while (i < employeeBook.length);
+        }
         System.out.println("Максимальная зарплата в отделе: " + maxDepartmentSalary);
     }
 
-    public static void getAndPrintMinimumSalaryInDepartment() {
+    public static void printMinimumSalaryInDepartment() {
         int i = 0;
-        int minDepartmentSalary = maxSalary;
-        do {
-            if (department == employeeBook[i].getDepartment()) {
-                if (minDepartmentSalary > employeeBook[i].getSalary()) {
-                    minDepartmentSalary = employeeBook[i].getSalary();
+        int minDepartmentSalary = employeeBook[0].getSalary();
+        while (i < employeeBook.length) {
+            if (employeeBook != null) {
+                if (department == employeeBook[i].getDepartment()) {
+                    if (minDepartmentSalary > employeeBook[i].getSalary()) {
+                        minDepartmentSalary = employeeBook[i].getSalary();
+                    }
                 }
             }
             i++;
-        } while (i < employeeBook.length);
+        }
         System.out.println("Минимальная зарплата в отделе: " + minDepartmentSalary);
     }
 
     public static int getOverallSalaryInDepartment() {
         int i = 0;
         int overallSalaryInDepartment = 0;
-        do {
-            if (department == employeeBook[i].getDepartment()) {
+        while (i < employeeBook.length) {
+            if (employeeBook != null) {
+                if (department == employeeBook[i].getDepartment()) {
 
-                overallSalaryInDepartment += employeeBook[i].getSalary();
+                    overallSalaryInDepartment += employeeBook[i].getSalary();
+                }
             }
             i++;
-        } while (i < employeeBook.length);
+        }
         return overallSalaryInDepartment;
     }
 
@@ -184,44 +187,47 @@ public class Main {
         int i = 0;
         int counter = 0;
         int overallSalaryInDepartment = 0;
-        do {
-            if (department == employeeBook[i].getDepartment()) {
+        while (i < employeeBook.length) {
+            if (employeeBook != null) {
+                if (department == employeeBook[i].getDepartment()) {
 
-                overallSalaryInDepartment += employeeBook[i].getSalary();
-                counter++;
+                    overallSalaryInDepartment += employeeBook[i].getSalary();
+                    counter++;
+                }
             }
             i++;
-        } while (i < employeeBook.length);
+        }
         return overallSalaryInDepartment / counter;
     }
 
     public static void indexSalaryInDepartmentAndPrintEmployeeWithoutDepartmentNumber() {
         int i = 0;
         int salaryInDepartment = 0;
-        do {
+        while (i < employeeBook.length) {
             if (department == employeeBook[i].getDepartment()) {
 
                 employeeBook[i].setSalary(employeeBook[i].getSalary() + employeeBook[i].getSalary() * indexSalaryInDepartment / 100);
                 System.out.println(employeeBook[i].toStringWithoutDepartment());
             }
             i++;
-        } while (i < employeeBook.length);
+        }
     }
 
     public static void salarySorting() {
-        System.out.println("\n" + "Зарплта больше или равна введенной у следующих работников:" + "\n");
+        System.out.println("\n" + "Зарплта больше или равна " + salarySorting + " у следующих работников:" + "\n");
         for (int i = 0; i < employeeBook.length; i++) {
             if (salarySorting <= employeeBook[i].getSalary()) {
                 System.out.println(employeeBook[i].toStringWithoutDepartment());
             }
         }
-        System.out.println("\n" + "Зарплта меньше введенной у следующих работников:" + "\n");
+        System.out.println("\n" + "Зарплта меньше " + salarySorting + " у следующих работников:" + "\n");
         for (int i = 0; i < employeeBook.length; i++) {
             if (salarySorting > employeeBook[i].getSalary()) {
                 System.out.println(employeeBook[i].toStringWithoutDepartment());
             }
         }
-    }
+    }// честно говоря, не понял сути замечания) по-моему достаточно просто написано:) вроде ж работает, вроде ж достаточно шустро считает :)
+
 
     public static void findAndPrintEmployeeByDepartment() {
         int f;
@@ -229,13 +235,13 @@ public class Main {
             System.out.println("В отделе №" + i + " работают следующие сотрудники: ");
             for (f = 0; f < employeeBook.length; f++) {
                 if (employeeBook[f].getDepartment() == i) {
-                    System.out.print(employeeBook[f].getName());
+                    System.out.print(employeeBook[f].getName() + " " + employeeBook[f].getLastname());
                     break;
                 }
             }
-            for (int j = f+1; j < employeeBook.length; j++) {
+            for (int j = f + 1; j < employeeBook.length; j++) {
                 if (employeeBook[j].getDepartment() == i) {
-                    System.out.print(", " + employeeBook[j].getName());
+                    System.out.print(", " + employeeBook[j].getName() + " " + employeeBook[j].getLastname());
                 }
             }
             System.out.println(".");
